@@ -1,0 +1,506 @@
+{
+  "info": {
+    "_postman_id": "ad31c679-7693-4750-a089-86c5f3338861",
+    "name": "E-commerce API Testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57883240",
+    "_collection_link": "https://go.postman.co/collection/57883240-ad31c679-7693-4750-a089-86c5f3338861?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "CART_003 – Retrieve Cart by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Cart ID is 1\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.id).to.eql(1);\r\n});\r\n\r\npm.test(\"User ID is 1\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.userId).to.eql(1);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://dummyjson.com/carts/1",
+              "protocol": "https",
+              "host": [
+                "dummyjson",
+                "com"
+              ],
+              "path": [
+                "carts",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PAYMENT_001 – Valid Payment Simulation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Payment status is SUCCESS\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.paymentStatus).to.eql(\"SUCCESS\");\r\n});\r\n\r\npm.test(\"Payment method is UPI\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.paymentMethod).to.eql(\"UPI\");\r\n});\r\n\r\npm.test(\"Payment amount is correct\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.amount).to.eql(119.96);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://dummyjson.com/c/5ffc-00f3-48f0-928e",
+              "protocol": "https",
+              "host": [
+                "dummyjson",
+                "com"
+              ],
+              "path": [
+                "c",
+                "5ffc-00f3-48f0-928e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PAYMENT_002 – Failed Payment Simulation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Payment status is FAILED\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.paymentStatus).to.eql(\"FAILED\");\r\n});\r\n\r\npm.test(\"Payment method is UPI\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.paymentMethod).to.eql(\"UPI\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://dummyjson.com/c/4770-2cbd-421f-927b",
+              "protocol": "https",
+              "host": [
+                "dummyjson",
+                "com"
+              ],
+              "path": [
+                "c",
+                "4770-2cbd-421f-927b"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "TC_PRODUCT_001_Get_All_Products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response contains products\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.products).to.be.an(\"array\");\r\n});\r\npm.test(\"First product has required fields\", function () {\r\n    const jsonData = pm.response.json();\r\n\r\n    pm.expect(jsonData.products[0]).to.have.property(\"id\");\r\n    pm.expect(jsonData.products[0]).to.have.property(\"title\");\r\n    pm.expect(jsonData.products[0]).to.have.property(\"price\");\r\n});\r\npm.test(\"Products array is not empty\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.products.length).to.be.above(0);\r\n});\r\n\r\npm.test(\"First product price is a number\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.products[0].price).to.be.a(\"number\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://dummyjson.com/products",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC_PRODUCT_002_Invalid_Product_ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Invalid product returns 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"Error message is correct\", function () {\r\n    const jsonData = pm.response.json();\r\n\r\n    pm.expect(jsonData.message).to.include(\"not found\");\r\n});\r\npm.test(\"Error response contains a message\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.be.a(\"string\");\r\n    pm.expect(jsonData.message.length).to.be.above(0);\r\n});\r\n\r\npm.test(\"Product data is not returned\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.not.have.property(\"id\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://dummyjson.com/products/999999",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "products",
+            "999999"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC_AUTH_001_Valid_Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Login status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Access token is present\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.accessToken).to.exist;\r\n});\r\n\r\npm.test(\"Username is correct\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.username).to.eql(\"emilys\");\r\n});\r\n\r\npm.test(\"User ID is present\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.id).to.exist;\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\n\r\npm.collectionVariables.set(\r\n    \"accessToken\",\r\n    jsonData.accessToken\r\n);\r\n\r\npm.test(\"User ID is correct\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.id).to.eql(1);\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"emilys\",\r\n    \"password\": \"emilyspass\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dummyjson.com/auth/login",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC_AUTH_002_Invalid_Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Invalid login returns 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Error message is returned\", function () {\r\n    const jsonData = pm.response.json();\r\n\r\n    pm.expect(jsonData.message.toLowerCase())\r\n        .to.include(\"invalid credentials\");\r\n});\r\npm.test(\"Access token is not generated\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.accessToken).to.not.exist;\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"emilys\",\r\n    \"password\": \"wrongpassword123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dummyjson.com/auth/login",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CART_004 – Add Product with Quantity 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Cart creation returns 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Product quantity is correct\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.products[0].quantity).to.eql(2);\r\n});\r\n\r\npm.test(\"Product title is correct\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.products[0].title)\r\n        .to.eql(\"Essence Mascara Lash Princess\");\r\n});\r\n\r\npm.test(\"Cart total is correct\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.total).to.eql(19.98);\r\n});\r\npm.test(\"User ID is correct\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.userId).to.eql(1);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\": 1,\r\n    \"products\": [\r\n        {\r\n            \"id\": 1,\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dummyjson.com/carts/add",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "carts",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC_CART_002_Invalid_Cart_Data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Cart request returns 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Invalid product is not added\", function () {\r\n    const data = pm.response.json();\r\n\r\n    pm.expect(data.products).to.be.an(\"array\");\r\n    pm.expect(data.products).to.have.lengthOf(0);\r\n});\r\n\r\npm.test(\"Cart total is zero\", function () {\r\n    const data = pm.response.json();\r\n\r\n    pm.expect(data.total).to.eql(0);\r\n});\r\npm.test(\"User ID is correct\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.userId).to.eql(1);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\": 1,\r\n    \"products\": [\r\n        {\r\n            \"id\": 999999,\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dummyjson.com/carts/add",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "carts",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC_AUTH_003_Access_Protected_Resource",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Invalid token returns 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Unauthorized error message is returned\", function () {\r\n    const jsonData = pm.response.json();\r\n\r\n    pm.expect(jsonData.message.toLowerCase())\r\n        .to.include(\"invalid/expired token\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{invalidToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://dummyjson.com/auth/me",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "auth",
+            "me"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CART_001 – Add Product with Quantity 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"User ID is correct\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.userId).to.eql(1);\r\n});\r\n\r\npm.test(\"Product quantity is correct\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.products[0].quantity).to.eql(1);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"userId\": 1,\r\n  \"products\": [\r\n    {\r\n      \"id\": 1,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dummyjson.com/carts/add",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "carts",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ORDER_002 – Add Invalid Product ID to Cart",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Cart request returns 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Invalid product is not added\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.products).to.be.an(\"array\");\r\n    pm.expect(data.products).to.have.lengthOf(0);\r\n});\r\n\r\npm.test(\"Cart total is zero\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.total).to.eql(0);\r\n});\r\n\r\npm.test(\"Total products and quantity are zero\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.totalProducts).to.eql(0);\r\n    pm.expect(data.totalQuantity).to.eql(0);\r\n});\r\n\r\npm.test(\"User ID is correct\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.userId).to.eql(1);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"userId\": 1,\r\n  \"products\": [\r\n    {\r\n      \"id\": 99999,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dummyjson.com/carts/add",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "carts",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ORDER_003 – Missing User ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Missing user ID returns 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Correct error message is returned\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.message).to.eql(\"User id is required\");\r\n});\r\n\r\npm.test(\"User ID is not present in request\", function () {\r\n    const requestData = JSON.parse(pm.request.body.raw);\r\n    pm.expect(requestData).to.not.have.property(\"userId\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"products\": [\r\n    {\r\n      \"id\": 1,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dummyjson.com/carts/add",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "carts",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "invalidToken",
+      "value": ""
+    }
+  ]
+}
